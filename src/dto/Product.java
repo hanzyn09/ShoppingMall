@@ -2,19 +2,20 @@ package dto;
 
 import java.io.Serializable;
 
-/*상품 클래스 만들기*/
-public class Product implements Serializable{
+public class Product implements Serializable {
+
 	private static final long serialVersionUID = -4274700572038677000L;
-	
-	private String productId;
-	private String pname;
-	private Integer unitPrice;
-	private String description;
+
+	private String productId;	
+	private String pname;		
+	private Integer unitPrice; 
+	private String description; 
 	private String manufacturer;
-	private String category;
-	private long unitsInStock;
-	private String condition;
-	
+	private String category; 	
+	private long unitsInStock; 
+	private String condition; 	
+	private String filename; 	
+
 	public Product() {
 		super();
 	}
@@ -29,16 +30,16 @@ public class Product implements Serializable{
 		return productId;
 	}
 
-	public void setProductId(String productId) {
-		this.productId = productId;
-	}
-
 	public String getPname() {
 		return pname;
 	}
 
 	public void setPname(String pname) {
 		this.pname = pname;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 
 	public Integer getUnitPrice() {
@@ -89,10 +90,12 @@ public class Product implements Serializable{
 		this.condition = condition;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getFilename() {
+		return filename;
 	}
 
-
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}	
 	
 }
