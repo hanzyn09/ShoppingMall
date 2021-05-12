@@ -53,14 +53,14 @@
 			<div class="form-group  row">
 				<label class="col-sm-2">비밀번호</label>
 				<div class="col-sm-3">
-					<input name="password" type="text" class="form-control"
+					<input name="password" type="password" class="form-control"
 						placeholder="password" value="<c:out value='${row.password }'/>" >
 				</div>
 			</div>
 			<div class="form-group  row">
 				<label class="col-sm-2">비밀번호확인</label>
 				<div class="col-sm-3">
-					<input name="password_confirm" type="text" class="form-control"
+					<input name="password_confirm" type="password" class="form-control"
 						placeholder="password_confirm" >
 				</div>
 			</div>
