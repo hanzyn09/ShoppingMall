@@ -14,8 +14,9 @@
 	</div>
 	<div class="container">
 		<div class="row" align="center">
-		<%@ include file="dbconn.jsp"%>
+			<%@ include file="dbconn.jsp" %>
 			<%
+			
 				String sql = "select * from product";
 				pstmt = conn.prepareStatement(sql);
 				rs = pstmt.executeQuery();
