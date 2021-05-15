@@ -4,7 +4,7 @@
 <%@ page import="mvc.model.BoardDTO"%>
 <%
 	String sessionId = (String) session.getAttribute("sessionId");
-	List boardList = (List) request.getAttribute("boardlist");
+	List<BoardDTO> boardList = (List<BoardDTO>) request.getAttribute("boardlist");
 	int total_record = ((Integer) request.getAttribute("total_record")).intValue();
 	int pageNum = ((Integer) request.getAttribute("pageNum")).intValue();
 	int total_page = ((Integer) request.getAttribute("total_page")).intValue();

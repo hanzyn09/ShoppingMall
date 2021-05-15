@@ -11,14 +11,16 @@ public class BoardDAO {
 
 	private static BoardDAO instance;
 	
-	public BoardDAO() {
+	private BoardDAO() {
+		
 	}
 
 	public static BoardDAO getInstance() {
-		if(instance == null)
+		if (instance == null)
 			instance = new BoardDAO();
 		return instance;
-	}
+	}	
+
 	public int getListCount(String items, String text) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -29,9 +31,9 @@ public class BoardDAO {
 		String sql;
 		
 		if (items == null && text == null)
-			sql = "select  count(*) from board";
+			sql = "select count(*) from board";
 		else
-			sql = "SELECT   count(*) FROM board where " + items + " like '%" + text + "%'";
+			sql = "SELECT count(*) FROM board where " + items + " like '%" + text + "%'";
 		
 		try {
 			conn = DBConnection.getConnection();
@@ -42,7 +44,7 @@ public class BoardDAO {
 				x = rs.getInt(1);
 			
 		} catch (Exception ex) {
-			System.out.println("getListCount() : " + ex);
+			System.out.println("getListCount() error: " + ex);
 		} finally {			
 			try {				
 				if (rs != null) 
@@ -72,17 +74,18 @@ public class BoardDAO {
 		if (items == null && text == null)
 			sql = "select * from board ORDER BY num DESC";
 		else
-			sql = "SELECT  * FROM board where " + items + " like '%" + text + "%' ORDER BY num DESC ";
+			sql = "SELECT * FROM board where " + items + " like '%" + text + "%' ORDER BY num DESC ";
 
 		ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
-
+		
 		try {
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-
-			while (rs.absolute(index)) {
+			
+			while (rs.next()) {
 				BoardDTO board = new BoardDTO();
+				
 				board.setNum(rs.getInt("num"));
 				board.setId(rs.getString("id"));
 				board.setName(rs.getString("name"));
@@ -92,7 +95,7 @@ public class BoardDAO {
 				board.setHit(rs.getInt("hit"));
 				board.setIp(rs.getString("ip"));
 				list.add(board);
-
+				
 				if (index < (start + limit) && index <= total_record)
 					index++;
 				else
@@ -100,7 +103,7 @@ public class BoardDAO {
 			}
 			return list;
 		} catch (Exception ex) {
-			System.out.println("getBoardList()  : " + ex);
+			System.out.println("getBoardList() error : " + ex);
 		} finally {
 			try {
 				if (rs != null) 
@@ -135,7 +138,7 @@ public class BoardDAO {
 			
 			return name;
 		} catch (Exception ex) {
-			System.out.println("getBoardByNum() : " + ex);
+			System.out.println("getBoardByNum() error : " + ex);
 		} finally {
 			try {				
 				if (rs != null) 
@@ -151,9 +154,10 @@ public class BoardDAO {
 		return null;
 	}
 
-	
 	public void insertBoard(BoardDTO board)  {
 
+		
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -173,7 +177,7 @@ public class BoardDAO {
 
 			pstmt.executeUpdate();
 		} catch (Exception ex) {
-			System.out.println("insertBoard() : " + ex);
+			System.out.println("insertBoard() error : " + ex);
 		} finally {
 			try {									
 				if (pstmt != null) 
@@ -185,7 +189,7 @@ public class BoardDAO {
 			}		
 		}		
 	} 
-	
+
 	public void updateHit(int num) {
 
 		Connection conn = null;
@@ -211,7 +215,7 @@ public class BoardDAO {
 			pstmt.setInt(2, num);
 			pstmt.executeUpdate();
 		} catch (Exception ex) {
-			System.out.println("updateHit() ���� : " + ex);
+			System.out.println("updateHit() error : " + ex);
 		} finally {
 			try {
 				if (rs != null) 
@@ -255,7 +259,7 @@ public class BoardDAO {
 			
 			return board;
 		} catch (Exception ex) {
-			System.out.println("getBoardByNum() : " + ex);
+			System.out.println("getBoardByNum() error : " + ex);
 		} finally {
 			try {
 				if (rs != null) 
@@ -293,7 +297,7 @@ public class BoardDAO {
 			conn.commit();
 
 		} catch (Exception ex) {
-			System.out.println("updateBoard() : " + ex);
+			System.out.println("updateBoard() error : " + ex);
 		} finally {
 			try {										
 				if (pstmt != null) 
@@ -319,7 +323,7 @@ public class BoardDAO {
 			pstmt.executeUpdate();
 
 		} catch (Exception ex) {
-			System.out.println("deleteBoard() : " + ex);
+			System.out.println("deleteBoard() error : " + ex);
 		} finally {
 			try {										
 				if (pstmt != null) 
@@ -331,6 +335,4 @@ public class BoardDAO {
 			}		
 		}
 	}	
-	
-	
 }

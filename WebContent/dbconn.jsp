@@ -2,11 +2,9 @@
 <%@ page import="java.sql.*"%> 
 <%
 	Connection conn = null;	
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	
+
 	try {
-		String url = "jdbc:mysql://localhost:3306/WebMarketDB?autoReconnect=true";
+		String url = "jdbc:mysql://localhost:3306/webmarketdb";
 		String user = "root";
 		String password = "1234";
 

@@ -16,7 +16,9 @@
 		<div class="row" align="center">
 			<%@ include file="dbconn.jsp" %>
 			<%
-			
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				
 				String sql = "select * from product";
 				pstmt = conn.prepareStatement(sql);
 				rs = pstmt.executeQuery();
@@ -33,13 +35,12 @@
 			</div>
 			<%
 				}
-				
-			if (rs != null)
-				rs.close();
- 			if (pstmt != null)
- 				pstmt.close();
- 			if (conn != null)
-				conn.close();
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
 			%>
 		</div>
 		<hr>

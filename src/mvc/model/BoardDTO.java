@@ -2,16 +2,16 @@ package mvc.model;
 
 public class BoardDTO {
 	private int num;
-    private String id;
-    private String name;
-    private String subject;
-    private String content;
-    private String regist_day;
-    private int hit;
-    private String ip;
-    
+	private String id;
+	private String name;
+	private String subject;
+	private String content;
+	private String regist_day;
+	private int hit;
+	private String ip;
+
 	public BoardDTO() {
-		super();
+		super();		
 	}
 
 	public int getNum() {
@@ -77,7 +77,5 @@ public class BoardDTO {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-    
-    
 
 }

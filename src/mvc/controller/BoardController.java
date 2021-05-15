@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,80 +15,76 @@ import mvc.model.BoardDTO;
 
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	static final int LISTCOUNT = 5;
-       
+	static final int LISTCOUNT = 5; 
 
-    public BoardController() {
-        super();
-    }
-
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String requestURI = request.getRequestURI();
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String RequestURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
-		String command = requestURI.substring(contextPath.length());
+		String command = RequestURI.substring(contextPath.length());
 		
 		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
-		
-		if(command.equals("/BoardListAction.do")) { //등록된 글 목록 페이지 출력
+	
+		if (command.equals("/BoardListAction.do")) {
 			requestBoardList(request);
 			RequestDispatcher rd = request.getRequestDispatcher("./board/list.jsp");
 			rd.forward(request, response);
-		} else if (command.equals("/BoardWriteForm.do")) { //글 등록 페이지 출력
-			requestLoginName(request);
-			RequestDispatcher rd = request.getRequestDispatcher("./board/writeForm.jsp");
-			rd.forward(request, response);				
-		} else if (command.equals("/BoardWriteAction.do")) {//새로운 글 등록
-			requestBoardWrite(request);
-			RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");
-			rd.forward(request, response);
-		}else if (command.equals("/BoardViewAction.do")) {//선택된 글 상자 페이지 가져오기
-			requestBoardView(request);
-			RequestDispatcher rd = request.getRequestDispatcher("/BoardView.do");
-			rd.forward(request, response);						
-		} else if (command.equals("/BoardView.do")) { //글 상세 페이지 출력하기
+		} else if (command.equals("/BoardWriteForm.do")) { 
+				requestLoginName(request);
+				RequestDispatcher rd = request.getRequestDispatcher("./board/writeForm.jsp");
+				rd.forward(request, response);				
+		} else if (command.equals("/BoardWriteAction.do")) {
+				requestBoardWrite(request);
+				RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");
+				rd.forward(request, response);						
+		} else if (command.equals("/BoardViewAction.do")) {
+				requestBoardView(request);
+				RequestDispatcher rd = request.getRequestDispatcher("/BoardView.do");
+				rd.forward(request, response);						
+		} else if (command.equals("/BoardView.do")) { 
 				RequestDispatcher rd = request.getRequestDispatcher("./board/view.jsp");
+				rd.forward(request, response);	
+		} else if (command.equals("/BoardUpdateAction.do")) { 
+				requestBoardUpdate(request);
+				RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");
 				rd.forward(request, response);
-		}else if (command.equals("/BoardUpdateAction.do")) { //선택된 글 수정하기
-			requestBoardUpdate(request);
-			RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");
-			rd.forward(request, response);
-		}else if (command.equals("/BoardDeleteAction.do")) { //선택된 글 삭제하기
+		}else if (command.equals("/BoardDeleteAction.do")) {
 				requestBoardDelete(request);
 				RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");
-				rd.forward(request, response);	
-		}
-}
-	private void requestBoardList(HttpServletRequest request) {
+				rd.forward(request, response);				
+		} 
+	}
+	
+	public void requestBoardList(HttpServletRequest request){
+			
 		BoardDAO dao = BoardDAO.getInstance();
 		List<BoardDTO> boardlist = new ArrayList<BoardDTO>();
 		
 	  	int pageNum=1;
 		int limit=LISTCOUNT;
 		
-		if(request.getParameter("pageNum")!= null)
+		if(request.getParameter("pageNum")!=null)
 			pageNum=Integer.parseInt(request.getParameter("pageNum"));
 				
 		String items = request.getParameter("items");
 		String text = request.getParameter("text");
 		
-		int total_record = dao.getListCount(items, text);
-		boardlist = dao.getBoardList(pageNum, limit, items, text); 
+		int total_record=dao.getListCount(items, text);
+		boardlist = dao.getBoardList(pageNum,limit, items, text); 
 		
 		int total_page;
 		
 		if (total_record % limit == 0){     
-	     	total_page = total_record/limit;
+	     	total_page =total_record/limit;
 	     	Math.floor(total_page);  
 		}
 		else{
-		   total_page = total_record/limit;
+		   total_page =total_record/limit;
 		   Math.floor(total_page); 
 		   total_page =  total_page + 1; 
 		}		
@@ -97,12 +92,11 @@ public class BoardController extends HttpServlet {
    		request.setAttribute("pageNum", pageNum);		  
    		request.setAttribute("total_page", total_page);   
 		request.setAttribute("total_record",total_record); 
-		request.setAttribute("boardlist", boardlist);	
-		
+		request.setAttribute("boardlist", boardlist);								
 	}
 	
 	public void requestLoginName(HttpServletRequest request){
-		
+					
 		String id = request.getParameter("id");
 		
 		BoardDAO  dao = BoardDAO.getInstance();
@@ -111,7 +105,7 @@ public class BoardController extends HttpServlet {
 		
 		request.setAttribute("name", name);									
 	}
-	
+
 	public void requestBoardWrite(HttpServletRequest request){
 					
 		BoardDAO dao = BoardDAO.getInstance();		
@@ -136,7 +130,7 @@ public class BoardController extends HttpServlet {
 	}
 	
 	public void requestBoardView(HttpServletRequest request){
-		
+					
 		BoardDAO dao = BoardDAO.getInstance();
 		int num = Integer.parseInt(request.getParameter("num"));
 		int pageNum = Integer.parseInt(request.getParameter("pageNum"));	
@@ -150,7 +144,7 @@ public class BoardController extends HttpServlet {
 	}
 	
 	public void requestBoardUpdate(HttpServletRequest request){
-		
+					
 		int num = Integer.parseInt(request.getParameter("num"));
 		int pageNum = Integer.parseInt(request.getParameter("pageNum"));	
 		
